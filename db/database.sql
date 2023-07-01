@@ -13,6 +13,7 @@ CREATE TABLE comments (
     id INT(255) NOT NULL AUTO_INCREMENT,
     comment VARCHAR(255) DEFAULT NULL,
     likes INT(255) NOT NULL,
+    comment_id INT(255) DEFAULT NULL,
     PRIMARY KEY (id)
 )
 
@@ -20,7 +21,8 @@ CREATE TABLE subcomts (
     id INT(255) NOT NULL AUTO_INCREMENT,
     comments VARCHAR(255) DEFAULT NULL,
     likes INT(255) NOT NULL,
-    subcomtid VARCHAR(255) DEFAULT NULL,
+    sub_comment_id INT(255) DEFAULT NULL,
+    auth_comment_id INT(255) DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
@@ -35,7 +37,7 @@ CREATE TABLE createcard (
     creador VARCHAR(255) DEFAULT NULL,
     img VARCHAR(255) DEFAULT NULL, 
     PRIMARY KEY (id)
-)
+);
 
 INSERT INTO auth (username, password) VALUES ('Robertson', 'robertmarte123')
 

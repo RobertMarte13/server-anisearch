@@ -29,9 +29,9 @@ router.post("/api/register", async (req, res) => {
 });
 
 // Login
-router.get("/api/login", async (req, res) => {
+router.get("/api/login/:username/:password", async (req, res) => {
   // Recuperando la data que el usuario me esta pasando para registrarse.
-  const { username, password } = req.body;
+  const { username, password } = req.params;
 
   // Seleccionando los datos de la base de datos para compara y que exista ya un nombre igual al del login.
   const auth = await pool.query("SELECT id, username, password FROM auth");
