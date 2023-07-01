@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authindex from "./routes/auth.routes.js"
 import creatercardsindex from "./routes/createcards.routes.js"
+import commentindex from "./routes/comments.routes.js"
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(cors())
 // Routes
 app.use(authindex)
 app.use(creatercardsindex)
+app.use(commentindex)
 
 app.listen(3000)
 console.log('Server listening on port 3000')
