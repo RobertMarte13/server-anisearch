@@ -4,6 +4,7 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import authindex from "./routes/auth.routes.js"
+import creatercardsindex from "./routes/createcards.routes.js"
 
 
 const app = express();
@@ -19,6 +20,7 @@ app.use(cors())
 
 // Routes
 app.use(authindex)
+app.use(creatercardsindex)
 
 app.listen(3000)
 console.log('Server listening on port 3000')
