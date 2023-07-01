@@ -6,7 +6,7 @@ const router = Router();
 // register
 router.post("/api/register", async (req, res) => {
   // Recuperando los datos que pasa el client
-  const { username, password } = req.body;
+  const { username, password, auth_id } = req.body;
 
   // Recuperando solo los username de la base de datos para compara y que no exista ya un nombre igual al que se intenta registrar.
   const data = await pool.query("SELECT username FROM auth");
@@ -17,8 +17,8 @@ router.post("/api/register", async (req, res) => {
   // Validacion que lo que hace es verificar que todo vaya bien y si todo va bien crea el registro del usuario nuevo
   if (!!!validationUserName) {
     const [rows] = await pool.query(
-      "INSERT INTO auth(username, password) VALUES (?, ?)",
-      [username, password]
+      "INSERT INTO auth(username, password, auth_id) VALUES (?, ?, ?)",
+      [username, password, auth_id]
     );
     res.status(201).json({
       message: "success!!!",

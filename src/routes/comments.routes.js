@@ -5,14 +5,14 @@ const router = Router();
 
 // Crear comentarios
 router.post("/api/comment", async (req, res) => {
-  const { comment, likes } =
+  const { comment, likes, comment_id } =
     req.body;
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un comentario nueva.
     await pool.query(
-      "INSERT INTO comments(comment, likes) VALUES (?, ?)",
-      [comment, likes]
+      "INSERT INTO comments(comment, likes, comment_id) VALUES (?, ?, ?)",
+      [comment, likes, comment_id]
     );
 
     res.status(201)
@@ -29,7 +29,7 @@ router.get("/api/comment", async (req, res) => {
   try {
 
     // Este codigo lo que hace es seleccionar todas los comentarios y mostrarlos.
-    const [rows] = await pool.query("SELECT * FROM comments");
+    const [rows] = await pool.query("SELECT username, comment FROM auth INNER JOIN comments ON auth_id = comment_id");
     const data = rows;
 
     // Este muestra los datos en formato json.
