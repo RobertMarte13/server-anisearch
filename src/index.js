@@ -8,6 +8,7 @@ import creatercardsindex from "./routes/createcards.routes.js"
 import commentindex from "./routes/comments.routes.js"
 import subcommentindex from "./routes/sub_comment.routes.js"
 
+import { PORT } from "./config.js"
 
 const app = express();
 
@@ -26,5 +27,5 @@ app.use(creatercardsindex)
 app.use(commentindex)
 app.use(subcommentindex)
 
-app.listen(3000)
-console.log('Server listening on port 3000')
+app.listen(PORT)
+console.log(`Server listening on port ${PORT}`)
