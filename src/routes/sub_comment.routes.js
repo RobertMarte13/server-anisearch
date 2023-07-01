@@ -3,16 +3,16 @@ import pool from "../db.js";
 
 const router = Router();
 
-// Crear comentarios
-router.post("/api/comment", async (req, res) => {
-  const { comment, likes, comment_id } =
+// Crear respuestas a comentarios
+router.post("/api/subcomment", async (req, res) => {
+  const { comments, likes, sub_comment_id, auth_comment_id } =
     req.body;
 
   try {
-    // Este codigo lo que hace es insertar datos en la base de datos y crear un comentario nueva.
+    // Este codigo lo que hace es insertar datos en la base de datos y crear un subcomentario nueva.
     await pool.query(
-      "INSERT INTO comments(comment, likes, comment_id) VALUES (?, ?, ?)",
-      [comment, likes, comment_id]
+      "INSERT INTO subcomts(comments, likes, sub_comment_id, auth_comment_id) VALUES (?, ?, ?, ?)",
+      [comments, likes, sub_comment_id, auth_comment_id]
     );
 
     res.status(201)
@@ -24,26 +24,17 @@ router.post("/api/comment", async (req, res) => {
   }
 });
 
-// Obtener todos los comenatrios
-router.get("/api/comment", async (req, res) => {
+// Obtener respuestas a comentarios
+router.get("/api/subcomment", async (req, res) => {
   try {
 
-    // Este codigo lo que hace es seleccionar todas los comentarios y mostrarlos.
-    const [rows] = await pool.query("SELECT username, comment, auth_id FROM auth INNER JOIN comments ON auth_id = comment_id");
-    const data = rows;
+    // Este codigo obtiene el nombre del usuario, el subcomentario y el id del usuario quien lo creo.
+    const [rows] = await pool.query("SELECT username, comments, auth_id FROM auth INNER JOIN subcomts ON auth_id = auth_comment_id")
 
-    const [rows_2] = await pool.query("SELECT username, comments, sub_comment_id, auth_comment_id FROM auth INNER JOIN subcomts ON auth_id = auth_comment_id")
+    const data = rows
 
-    const data_2 = rows_2
-
-    // Este muestra los datos en formato json.
     res.json({
-      data: [
-        {
-          comment: data,
-          subcomment: data_2
-        }
-      ]
+      data: data
     });
   } catch (error) {
     return res.status(500).json({
@@ -53,12 +44,12 @@ router.get("/api/comment", async (req, res) => {
   }
 });
 
-// Eliminar comentarios
-router.delete("/api/comment/:id", async (req, res) => {
+// Eliminar sub comentario
+router.delete("/api/subcomment/:id", async (req, res) => {
   try {
 
-    // Este codigo lo que hace es eliminar comentarios por medio de la id que tiene en el servidor.
-    const [rows] = await pool.query("DELETE FROM comments WHERE id = ?", [
+    // Este codigo lo que hace es eliminar subcomentarios por medio de sub_comment_id que tiene en el servidor.
+    const [rows] = await pool.query("DELETE FROM subcomts WHERE sub_comment_id = ?", [
       req.params.id,
     ]);
 
@@ -82,19 +73,19 @@ router.delete("/api/comment/:id", async (req, res) => {
   }
 });
 
-// Modificar comentarios
-router.patch("/api/comment/:id", async (req, res) => {
+// Modificar sub comentario
+router.patch("/api/subcomment/:id", async (req, res) => {
   // Aqui obtenemos todos las variables y la mas importante para poder actualizar un dato es id.
   const { id } = req.params;
-  const { comment, likes } =
+  const { comments, likes, sub_comment_id, auth_comment_id } =
     req.body;
 
   try {
 
     // Este codigo lo que hace es actualizar un dato por medio del id con la peculiaridad de que si no se llena un campo lo que hace es dejar el valor anterio o dejarlo vacío.
     const [rows] = await pool.query(
-      "UPDATE comments SET comment = IFNULL(?, comment), likes = IFNULL(?, likes) WHERE id = ?",
-      [comment, likes, id]
+      "UPDATE subcomts SET comments = IFNULL(?, comments), likes = IFNULL(?, likes), sub_comment_id = IFNULL(?, sub_comment_id),  auth_comment_id = IFNULL(?, auth_comment_id) WHERE id = ?",
+      [comments, likes, sub_comment_id, auth_comment_id, id]
     );
 
     // Si ninguna fila a sido affectada lo que hara es mandar un error al cliente disiendo que esa carta no a sido encontrada.
