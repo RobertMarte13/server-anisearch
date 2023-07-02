@@ -6,6 +6,7 @@ CREATE TABLE auth (
     id INT(255) NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    auth_id VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 )
 
@@ -13,7 +14,7 @@ CREATE TABLE comments (
     id INT(255) NOT NULL AUTO_INCREMENT,
     comment VARCHAR(255) DEFAULT NULL,
     likes INT(255) NOT NULL,
-    comment_id INT(255) DEFAULT NULL,
+    comment_id VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 )
 
@@ -21,8 +22,8 @@ CREATE TABLE subcomts (
     id INT(255) NOT NULL AUTO_INCREMENT,
     comments VARCHAR(255) DEFAULT NULL,
     likes INT(255) NOT NULL,
-    sub_comment_id INT(255) DEFAULT NULL,
-    auth_comment_id INT(255) DEFAULT NULL,
+    sub_comment_id VARCHAR(255) DEFAULT NULL,
+    auth_comment_id VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
