@@ -5,14 +5,14 @@ const router = Router();
 
 // Crear respuestas a comentarios
 router.post("/api/subcomment", async (req, res) => {
-  const { comments, likes, sub_comment_id, auth_comment_id } =
+  const { comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2 } =
     req.body;
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un subcomentario nueva.
     await pool.query(
-      "INSERT INTO subcomts(comments, likes, sub_comment_id, auth_comment_id) VALUES (?, ?, ?, ?)",
-      [comments, likes, sub_comment_id, auth_comment_id]
+      "INSERT INTO subcomts(comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2) VALUES (?, ?, ?, ?, ?)",
+      [comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2]
     );
 
     res.status(201)
