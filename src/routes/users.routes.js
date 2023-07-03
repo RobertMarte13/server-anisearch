@@ -6,31 +6,23 @@ const router = Router();
 router.post("/api/users", async (req, res) => {
   const { username, img, bio, fechaNacimiento, user_id } = req.body;
 
-  const [rows] = await pool.query("SELECT username From users");
-  const user = rows[0];
-
-  const validationUserName = user.find((user) => user.username === username);
-
-  if (!!!validationUserName) {
-    await pool.query(
-      "INSERT INTO users (username, img, bio, fechaNacimiento, user_id) VALUES (?, ?, ?, ?, ?)",
-      [username, img, bio, fechaNacimiento, user_id]
-    );
-  } else {
-    res.status(404).json({ message: "Your username is already taken!!" });
-  }
+  await pool.query(
+    "INSERT INTO users(username, img, bio, fechaNacimiento, user_id) VALUES (?, ?, ?, ?, ?)",
+    [username, img, bio, fechaNacimiento, user_id]
+  );
 });
 
-router.get("/api/users/:user_id", async (req, res) => {
-  const { user_id } = req.params;
+router.get("/api/users/:userId", async (req, res) => {
+  const { userId } = req.params;
+
+  console.log(userId)
 
   try {
-    const [rows] = await pool.query("SELECT * From users");
-    const user = rows[0];
+    const [rows] = await pool.query("SELECT * FROM users");
 
-    const validationUser = user.find((user) => user.user_id === user_id);
+    const validationUser = rows.find((control) => control.user_id === userId);
 
-    if(!!!validationUser) {
+    if(validationUser) {
       res.json({
         user: validationUser.username,
         img: validationUser.img,
@@ -40,7 +32,7 @@ router.get("/api/users/:user_id", async (req, res) => {
       });
     } else {
       res.json({
-        message: "Error al tratar de recuperar la informacion del usuario",
+        message: "Error al tratar de recuperar la informacion del usuario"
       });
     }
 
