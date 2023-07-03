@@ -5,8 +5,10 @@ const router = Router();
 
 // Crear respuestas a comentarios
 router.post("/api/subcomment", async (req, res) => {
-  const { comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion } =
+  const { comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2 } =
     req.body;
+  
+  const fechaCreacion = new Date().toLocaleString()
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un subcomentario nueva.

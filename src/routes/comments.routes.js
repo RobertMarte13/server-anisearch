@@ -5,8 +5,10 @@ const router = Router();
 
 // Crear comentarios
 router.post("/api/comment", async (req, res) => {
-  const { comment, likes, comment_id, commentIdSubComment, fechaCreacion } =
+  const { comment, likes, comment_id, commentIdSubComment } =
     req.body;
+
+  const fechaCreacion = new Date().toLocaleString()
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un comentario nueva.
@@ -25,15 +27,15 @@ router.post("/api/comment", async (req, res) => {
   }
 });
 
-// Obtener todos los comenatrios
+// Obtener todos los comentarios
 router.get("/api/comment", async (req, res) => {
   try {
 
     // Este codigo lo que hace es seleccionar todas los comentarios y mostrarlos.
-    const [rows] = await pool.query("SELECT username, comment, auth_id, commentIdSubComment FROM auth INNER JOIN comments ON auth_id = comment_id");
+    const [rows] = await pool.query("SELECT username, comment, auth_id, commentIdSubComment, fechaCreacion FROM auth INNER JOIN comments ON auth_id = comment_id");
     const data = rows;
 
-    const [rows_2] = await pool.query("SELECT username, comments, sub_comment_id, auth_comment_id, commentIdSubComment2 FROM auth INNER JOIN subcomts ON auth_id = auth_comment_id")
+    const [rows_2] = await pool.query("SELECT username, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion FROM auth INNER JOIN subcomts ON auth_id = auth_comment_id")
 
     const data_2 = rows_2
 
