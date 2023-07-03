@@ -5,13 +5,11 @@ const router = Router();
 
 // Crear comentarios
 router.post("/api/comment", async (req, res) => {
-  const { comment, likes, comment_id } =
+  const { comment, likes, comment_id, commentIdSubComment } =
     req.body;
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un comentario nueva.
-
-    const  commentIdSubComment = crypto.randomUUID();
 
     await pool.query(
       "INSERT INTO comments(comment, likes, comment_id, commentIdSubComment) VALUES (?, ?, ?, ?)",
