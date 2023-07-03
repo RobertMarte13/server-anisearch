@@ -25,16 +25,25 @@ router.get("/api/users/:user_id", async (req, res) => {
   const { user_id } = req.params;
 
   try {
-    const [rows] = await pool.query("SELECT * From users WHERE user_id = ?");
+    const [rows] = await pool.query("SELECT * From users");
     const user = rows[0];
 
-    res.json({
-      user: user.username,
-      img: user.img,
-      bio: user.bio,
-      fechaNacimiento: user.fechaNacimiento,
-      user_id: user.user_id,
-    });
+    const validationUser = user.find((user) => user.user_id === user_id);
+
+    if(!!!validationUser) {
+      res.json({
+        user: validationUser.username,
+        img: validationUser.img,
+        bio: validationUser.bio,
+        fechaNacimiento: validationUser.fechaNacimiento,
+        user_id: validationUser.user_id,
+      });
+    } else {
+      res.json({
+        message: "Error al tratar de recuperar la informacion del usuario",
+      });
+    }
+
   } catch (error) {
     res.json({
       message: "Error al tratar de recuperar la informacion del usuario",
