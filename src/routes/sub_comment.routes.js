@@ -8,6 +8,7 @@ router.post("/api/subcomment", async (req, res) => {
   const { comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2 } =
     req.body;
   
+  // Este codigo lo que hace es generar la fecha de cuando fue creado el comentario. 
   const fechaCreacion = new Date().toLocaleString()
 
   try {
