@@ -33,11 +33,7 @@ router.get("/api/users/:userId", async (req, res) => {
         fechaNacimiento: validationUser.fechaNacimiento,
         user_id: validationUser.user_id,
       });
-    } else {
-      res.json({
-        message: "Error al tratar de recuperar la informacion del usuario",
-      });
-    }
+    } 
   } catch (error) {
     res.json({
       message: "Error al tratar de recuperar la informacion del usuario.",
