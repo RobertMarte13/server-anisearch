@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authindex from "./routes/auth.routes.js"
 import usersindex from "./routes/users.routes.js"
+import searchusersindex from "./routes/searchUser.routes.js"
 import creatercardsindex from "./routes/createcards.routes.js"
 import commentindex from "./routes/comments.routes.js"
 import subcommentindex from "./routes/sub_comment.routes.js"
@@ -25,6 +26,7 @@ app.use(cors())
 // Routes
 app.use(authindex)
 app.use(usersindex)
+app.use(searchusersindex)
 app.use(creatercardsindex)
 app.use(commentindex)
 app.use(subcommentindex)
