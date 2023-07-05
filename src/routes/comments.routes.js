@@ -40,8 +40,8 @@ router.get("/api/comment", async (req, res) => {
     const value = data.length / 2
 
     // Este for sirve para organizar los comments de mas reciente a mas viejos
-    for(let i = value; i > 0; i--) {
-      console.log(i - 1)
+    for(let i = data.length; i > value; i--) {
+
       comment.push(data[i - 1])
     }
     
