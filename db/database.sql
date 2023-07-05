@@ -27,6 +27,7 @@ CREATE TABLE comments (
     comment_id VARCHAR(255) DEFAULT NULL,
     commentIdSubComment VARCHAR(255) DEFAULT NULL,
     fechaCreacion VARCHAR(255) DEFAULT NULL,
+    delete_id VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 )
 
@@ -38,6 +39,7 @@ CREATE TABLE subcomts (
     auth_comment_id VARCHAR(255) DEFAULT NULL,
     commentIdSubComment2 VARCHAR(255) DEFAULT NULL,
     fechaCreacion VARCHAR(255) DEFAULT NULL,
+    sub_delete_id VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 );
 
