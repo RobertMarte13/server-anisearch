@@ -32,13 +32,16 @@ router.get("/api/comment", async (req, res) => {
   try {
 
     // Este codigo lo que hace es seleccionar todas los comentarios y mostrarlos.
-    const [rows] = await pool.query("SELECT username, comment, auth_id, commentIdSubComment, fechaCreacion FROM auth INNER JOIN comments ON auth_id = comment_id limit 12");
+    const [rows] = await pool.query("SELECT username, comment, auth_id, commentIdSubComment, fechaCreacion FROM auth INNER JOIN comments ON auth_id = comment_id");
     
     const data = rows;
     const comment = []
 
+    const value = data.length / 2
+
     // Este for sirve para organizar los comments de mas reciente a mas viejos
-    for(let i = data.length; i > 0; i--) {
+    for(let i = value; i > 0; i--) {
+      console.log(i - 1)
       comment.push(data[i - 1])
     }
     
