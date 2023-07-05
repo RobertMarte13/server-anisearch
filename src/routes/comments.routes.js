@@ -5,11 +5,10 @@ const router = Router();
 
 // Crear comentarios
 router.post("/api/comment", async (req, res) => {
-  const { comment, likes, comment_id, commentIdSubComment } =
+  const { comment, likes, comment_id, commentIdSubComment, delete_id } =
     req.body;
 
   const fechaCreacion = new Date().toLocaleString()
-  const delete_id = crypto.randomUUID()
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un comentario nueva.
