@@ -104,9 +104,9 @@ router.delete("/api/comment/:delete_id", async (req, res) => {
 });
 
 // Modificar comentarios
-router.patch("/api/comment/:id", async (req, res) => {
+router.patch("/api/comment/:delete_id", async (req, res) => {
   // Aqui obtenemos todos las variables y la mas importante para poder actualizar un dato es id.
-  const { id } = req.params;
+  const { delete_id } = req.params;
   const { comment, likes } =
     req.body;
 
@@ -115,7 +115,7 @@ router.patch("/api/comment/:id", async (req, res) => {
     // Este codigo lo que hace es actualizar un dato por medio del id con la peculiaridad de que si no se llena un campo lo que hace es dejar el valor anterio o dejarlo vacío.
     const [rows] = await pool.query(
       "UPDATE comments SET comment = IFNULL(?, comment), likes = IFNULL(?, likes) WHERE id = ?",
-      [comment, likes, id]
+      [comment, likes, delete_id]
     );
 
     // Si ninguna fila a sido affectada lo que hara es mandar un error al cliente disiendo que esa carta no a sido encontrada.
