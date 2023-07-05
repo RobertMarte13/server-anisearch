@@ -79,7 +79,7 @@ router.delete("/api/comment/:delete_id", async (req, res) => {
   try {
 
     // Este codigo lo que hace es eliminar comentarios por medio de la id que tiene en el servidor.
-    const [rows] = await pool.query("DELETE FROM comments WHERE id = ?", [
+    const [rows] = await pool.query("DELETE FROM comments WHERE delete_id = ?", [
       req.params.delete_id,
     ]);
 
