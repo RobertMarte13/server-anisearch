@@ -114,7 +114,7 @@ router.patch("/api/comment/:delete_id", async (req, res) => {
 
     // Este codigo lo que hace es actualizar un dato por medio del id con la peculiaridad de que si no se llena un campo lo que hace es dejar el valor anterio o dejarlo vacío.
     const [rows] = await pool.query(
-      "UPDATE comments SET comment = IFNULL(?, comment), likes = IFNULL(?, likes) WHERE id = ?",
+      "UPDATE comments SET comment = IFNULL(?, comment), likes = IFNULL(?, likes) WHERE delete_id = ?",
       [comment, likes, delete_id]
     );
 
