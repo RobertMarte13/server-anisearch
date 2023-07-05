@@ -10,12 +10,13 @@ router.post("/api/subcomment", async (req, res) => {
   
   // Este codigo lo que hace es generar la fecha de cuando fue creado el comentario. 
   const fechaCreacion = new Date().toLocaleString()
+  const delete_id = crypto.randomUUID()
 
   try {
     // Este codigo lo que hace es insertar datos en la base de datos y crear un subcomentario nueva.
     await pool.query(
-      "INSERT INTO subcomts(comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion) VALUES (?, ?, ?, ?, ?, ?)",
-      [comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion]
+      "INSERT INTO subcomts(comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion, delete_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
+      [comments, likes, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion, delete_id]
     );
 
     res.status(201)
