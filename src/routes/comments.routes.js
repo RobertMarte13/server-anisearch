@@ -75,12 +75,12 @@ router.get("/api/comment", async (req, res) => {
 });
 
 // Eliminar comentarios
-router.delete("/api/comment/:id", async (req, res) => {
+router.delete("/api/comment/:delete_id", async (req, res) => {
   try {
 
     // Este codigo lo que hace es eliminar comentarios por medio de la id que tiene en el servidor.
     const [rows] = await pool.query("DELETE FROM comments WHERE id = ?", [
-      req.params.id,
+      req.params.delete_id,
     ]);
 
     // Si ninguna fila a sido affectada lo que hara es mandar un error al cliente disiendo que esa carta no a sido encontrada.
