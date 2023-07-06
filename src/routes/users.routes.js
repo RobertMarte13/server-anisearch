@@ -32,6 +32,7 @@ router.get("/api/users/:userId", async (req, res) => {
         bio: validationUser.bio,
         fechaNacimiento: validationUser.fechaNacimiento,
         user_id: validationUser.user_id,
+        users_id: validationUser.users_id
       });
     } 
   } catch (error) {

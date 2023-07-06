@@ -11,23 +11,25 @@ CREATE TABLE auth (
 )
 
 CREATE TABLE users (
-    id INT(255) NOT NULL AUTO_INCREMENT,
+    users_id INT NOT NULL AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     img VARCHAR(255) DEFAULT NULL, 
     bio VARCHAR(255) DEFAULT NULL,
     fechaNacimiento VARCHAR(255) DEFAULT NULL,
     user_id VARCHAR(255) DEFAULT NULL,
+
     PRIMARY KEY (id)
 )
 
 CREATE TABLE comments (
-    id INT(255) NOT NULL AUTO_INCREMENT,
+    comments_id INT NOT NULL AUTO_INCREMENT,
     comment VARCHAR(255) DEFAULT NULL,
     likes INT DEFAULT 0,
     comment_id VARCHAR(255) DEFAULT NULL,
     commentIdSubComment VARCHAR(255) DEFAULT NULL,
     fechaCreacion VARCHAR(255) DEFAULT NULL,
     delete_id VARCHAR(255) DEFAULT NULL,
+    comments_ids INT NOT NULL 
     created_at TIMESTAMP NOT NULL DEFAULT (NOW()),
     PRIMARY KEY (id)
 )
@@ -66,6 +68,14 @@ CREATE TABLE comments_likes (
     update_likes VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (comments_likes_id)
 );
+
+CREATE TABLE comment_likes (
+    users_id INT NOT NULL,
+    comments_id INT NOT NULL,
+    FOREIGN KEY (users_id) REFERENCES users(users_id),
+    FOREIGN KEY (comments_id) REFERENCES comments(comments_id),
+    PRIMARY KEY (users_id, comments_id)
+)
 
 INSERT INTO auth (username, password) VALUES ('Robertson', 'robertmarte123')
 
