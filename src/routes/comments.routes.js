@@ -32,7 +32,7 @@ router.get("/api/comment", async (req, res) => {
   try {
 
     // Este codigo lo que hace es seleccionar todas los comentarios y mostrarlos.
-    const [rows] = await pool.query("SELECT username, comment, auth_id, commentIdSubComment, fechaCreacion, delete_id FROM auth INNER JOIN comments ON auth_id = comment_id");
+    const [rows] = await pool.query("SELECT username, comment, auth_id, commentIdSubComment, fechaCreacion, delete_id, created_at FROM auth INNER JOIN comments ON auth_id = comment_id");
     
     const data = rows;
     const comment = []
@@ -42,7 +42,7 @@ router.get("/api/comment", async (req, res) => {
       comment.push(data[i - 1])
     }
     
-    const [rows_2] = await pool.query("SELECT username, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion, sub_delete_id FROM auth INNER JOIN subcomts ON auth_id = auth_comment_id")
+    const [rows_2] = await pool.query("SELECT username, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, fechaCreacion, sub_delete_id, created_at FROM auth INNER JOIN subcomts ON auth_id = auth_comment_id")
   
     const data_2 = rows_2
     const comment_2 = []
