@@ -69,8 +69,8 @@ router.get("/api/comment", async (req, res) => {
     res.json({
       data: [
         {
-          comment: data.reverse(),
-          subcomment: data_2.reverse(),
+          comment: data,
+          subcomment: data_2,
         },
       ],
     });
