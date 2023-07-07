@@ -53,7 +53,7 @@ router.get("/api/comment", async (req, res) => {
     }
 
     const [rows_2] = await pool.query(
-      "SELECT username, img, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, sub_delete_id, created_at FROM users INNER JOIN subcomts ON user_id = auth_comment_id"
+      "SELECT user_id, username, img, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, sub_delete_id, created_at FROM users INNER JOIN subcomts ON user_id = auth_comment_id"
     );
 
     const data_2 = rows_2;
