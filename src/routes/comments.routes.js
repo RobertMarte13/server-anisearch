@@ -50,7 +50,6 @@ router.get("/api/comment", async (req, res) => {
       comment.push(data[i - 1]);
     }
 
-    console.log(comment)
 
     const [rows_2] = await pool.query(
       "SELECT user_id, username, img, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, sub_delete_id, created_at FROM users INNER JOIN subcomts ON user_id = auth_comment_id"
@@ -70,8 +69,8 @@ router.get("/api/comment", async (req, res) => {
     res.json({
       data: [
         {
-          comment: comment,
-          subcomment: comment_2,
+          comment: data,
+          subcomment: data_2,
         },
       ],
     });
