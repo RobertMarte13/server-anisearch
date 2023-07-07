@@ -42,8 +42,6 @@ router.get("/api/comment", async (req, res) => {
       "SELECT comments_id, username, img, user_id, comment, commentIdSubComment, delete_id, created_at FROM users INNER JOIN comments ON user_id = comment_id"
     );
 
-    let prueba = "SELECT comments_id, username, comment, auth_id, commentIdSubComment, fechaCreacion, delete_id, created_at FROM auth INNER JOIN comments ON auth_id = comment_id"
-
     const data = rows;
     const comment = [];
 
@@ -51,6 +49,8 @@ router.get("/api/comment", async (req, res) => {
     for (let i = data.length; i > 0; i--) {
       comment.push(data[i - 1]);
     }
+
+    console.log(comment)
 
     const [rows_2] = await pool.query(
       "SELECT user_id, username, img, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, sub_delete_id, created_at FROM users INNER JOIN subcomts ON user_id = auth_comment_id"
