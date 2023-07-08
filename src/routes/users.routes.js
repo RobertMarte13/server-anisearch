@@ -1,7 +1,25 @@
 import { Router } from "express";
 import pool from "../db.js";
+// import multer from "multer";
+// import sharp from "sharp";
 
 const router = Router();
+
+// const storage = multer.diskStorage({
+//   // el cb es por si retornare un error.
+//   destination: (req, file, cb) => {
+//     cb(null, '../../uploads') //TODO: img con todas sus dimensiones.
+//   },
+//   filename: (req, file, cb) => {
+//     const ext = file.originalname.split('.').pop(); // Este me da el ultimo valor del arreglo. osea que si es img.png me dara png.
+
+//     cb(null, `${Date.now()}.${ext}`) // Este es el nombre con el que se guardara.
+//   }
+// })
+
+// const upload = multer({ storage })
+
+// upload.single('avatar')
 
 // Este sirve para crear informacion de los usuarios para su perfil si son nuevos.
 router.post("/api/users", async (req, res) => {

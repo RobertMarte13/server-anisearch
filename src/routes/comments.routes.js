@@ -42,35 +42,20 @@ router.get("/api/comment", async (req, res) => {
       "SELECT comments_id, username, img, user_id, comment, commentIdSubComment, delete_id, created_at FROM users INNER JOIN comments ON user_id = comment_id"
     );
 
-    // const data = rows;
-    // const comment = [];
-
-    // // Este for sirve para organizar los comments de mas reciente a mas viejos
-    // for (let i = data.length; i > 0; i--) {
-    //   comment.push(data[i - 1]);
-    // }
-
-
+    // Este codigo lo que hace es seleccionar todas los sub comentarios y mostrarlos.
     const [rows_2] = await pool.query(
       "SELECT user_id, username, img, comments, sub_comment_id, auth_comment_id, commentIdSubComment2, sub_delete_id, created_at FROM users INNER JOIN subcomts ON user_id = auth_comment_id"
     );
 
-    // const data_2 = rows_2;
-    // const comment_2 = [];
+    // Este codigo es para rankear los mejores comentarios y los mas gustados.
+    const [rows_3] = await pool.query('SELECT comments_id, username, img, user_id, comment, commentIdSubComment, delete_id, created_at FROM comment_likes INNER JOIN comments ON user_id = commentIdSubComment')
 
-    // Este for sirve para organizar los comments de mas reciente a mas viejos
-    // for (let i = data_2.length; i > 0; i--) {
-    //   comment_2.push(data_2[i - 1]);
-    // }
-
-    // console.log(comment_2);
-
-    // Este muestra los datos en formato json.
     res.json({
       data: [
         {
           comment: rows,
           subcomment: rows_2,
+          rankings: rows_3
         },
       ],
     });
