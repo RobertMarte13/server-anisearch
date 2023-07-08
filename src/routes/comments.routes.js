@@ -48,14 +48,13 @@ router.get("/api/comment", async (req, res) => {
     );
 
     // Este codigo es para rankear los mejores comentarios y los mas gustados.
-    const [rows_3] = await pool.query('SELECT comments_id, username, img, user_id, comment, commentIdSubComment, delete_id, created_at FROM comment_likes INNER JOIN comments ON user_id = commentIdSubComment')
+    // const [rows_3] = await pool.query('SELECT comment, commentIdSubComment, delete_id, created_at FROM comment_likes INNER JOIN comments ON comments_id = comments_id')
 
     res.json({
       data: [
         {
           comment: rows,
-          subcomment: rows_2,
-          rankings: rows_3
+          subcomment: rows_2
         },
       ],
     });
