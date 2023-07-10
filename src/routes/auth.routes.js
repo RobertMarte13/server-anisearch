@@ -34,14 +34,16 @@ router.get("/api/login/:username/:password", async (req, res) => {
   const { username, password } = req.params;
 
   // Seleccionando los datos de la base de datos para compara y que exista ya un nombre igual al del login.
-  const auth = await pool.query("SELECT id, username, password, auth_id FROM auth");
+  const auth = await pool.query(
+    "SELECT id, username, password, auth_id FROM auth"
+  );
   const users = auth[0];
   // validando los datos y comparando tanto el username como el password para saber si ese usuario existe o no.
   const validationName = users.find((user) => user.username === username);
   const validationPassword = users.find((user) => user.password === password);
 
   // Validacion que se encarga de mandar una id al client y su nombre de usuario si pasa el filtro del if, sino mandara un message que diga que el usuario o la contraceña esta mal.
-  console.log(validationName)
+  console.log(validationName);
 
   if (validationName && validationPassword) {
     res.json({
@@ -49,8 +51,12 @@ router.get("/api/login/:username/:password", async (req, res) => {
       isValidation: true,
       user: validationName.username,
     });
-  } else {
+  } else if (validationName || validationPassword) {
     res.status(404).json({ message: "The username or password is incorrect" });
+  } else {
+    res.status(404).json({
+      message: "The user does not exist, register first!",
+    });
   }
 });
 
