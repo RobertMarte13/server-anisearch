@@ -13,7 +13,13 @@ router.post("/api/register", async (req, res) => {
   const users = data[0];
   // Comparando con un find que no alla un username igual en la base de datos
   const validationUserName = users.find((user) => user.username === username);
-
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+    true;
+  } else {
+    return res.json({
+      message: "El correo electronico no es valido!",
+    });
+  }
   // Validacion que lo que hace es verificar que todo vaya bien y si todo va bien crea el registro del usuario nuevo
   if (!!!validationUserName) {
     const [rows] = await pool.query(
@@ -39,53 +45,49 @@ router.patch("/api/recover_password", async (req, res) => {
   // Aqui guardamos el resultado del usuario encontrado en la base de datos.
   const validationUserName = users.find((user) => user.username === username);
 
-  try {
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+    true;
+  } else {
+    return res.status(404).json({
+      message: "El correo electronico no es valido!",
+    });
+  }
 
-    // Esta primera validacion es para saber si el usuario existe.
-    if (validationUserName) {
-      // Esta validacion es para saber si han introducido una contracena que no este vacia
-      if (password !== null) {
-        // Esta condicion es para saber si la contraseña es igual o mayor a 5 caracteres
-        if(`${password}`.length >= 5) {
-          // Esta condicion es para saber si la contraceña es menor o igual a 24 caracteres.
-          if(`${password}`.length <= 24) {
-            // Esta peticion es para actualizar el password en la base de datos.
-            await pool.query(
-              "UPDATE auth SET password = IFNULL(?, password) WHERE username = ?",
-              [password, username]
-            );
-    
-            res.status(201).json({
-              message: "success",
-            });
+  // Esta primera validacion es para saber si el usuario existe.
+  if (validationUserName) {
+    // Esta validacion es para saber si han introducido una contracena que no este vacia
+    if (password !== null) {
+      // Esta condicion es para saber si la contraseña es igual o mayor a 5 caracteres
+      if (`${password}`.length >= 5) {
+        // Esta condicion es para saber si la contraceña es menor o igual a 24 caracteres.
+        if (`${password}`.length <= 24) {
+          // Esta peticion es para actualizar el password en la base de datos.
+          await pool.query(
+            "UPDATE auth SET password = IFNULL(?, password) WHERE username = ?",
+            [password, username]
+          );
 
-          } else {
-            res.status(201).json({
-              message: "The password we recommend is 24 characters or less",
-            });
-          }
-
+          res.status(201).json({
+            message: "success",
+          });
         } else {
           res.status(201).json({
-            message: "The password we recommend that it have 5 characters",
+            message: "The password we recommend is 24 characters or less",
           });
         }
-
       } else {
-        res.status(200).json({
-          message: "You forgot to put the password",
+        res.status(201).json({
+          message: "The password we recommend that it have 5 characters",
         });
       }
-
     } else {
-      res.status(404).json({
-        message: "User Not Found",
+      res.status(200).json({
+        message: "You forgot to put the password",
       });
     }
-  } catch (error) {
+  } else {
     res.status(404).json({
-      message: "Your username is already taken",
-      error: error,
+      message: "User Not Found",
     });
   }
 });
