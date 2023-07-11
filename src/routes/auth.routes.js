@@ -28,6 +28,68 @@ router.post("/api/register", async (req, res) => {
   }
 });
 
+// Recover Password
+router.patch("/api/recover_password", async (req, res) => {
+  const { username, password } = req.body;
+
+  // Recuperando todos los nombres de los usuarios para saber si el usuario que quiere cambiar su contraseña es real o no.
+  const data = await pool.query("SELECT username FROM auth");
+  const users = data[0];
+
+  // Aqui guardamos el resultado del usuario encontrado en la base de datos.
+  const validationUserName = users.find((user) => user.username === username);
+
+  try {
+
+    // Esta primera validacion es para saber si el usuario existe.
+    if (validationUserName) {
+      // Esta validacion es para saber si han introducido una contracena que no este vacia
+      if (password !== null) {
+        // Esta condicion es para saber si la contraseña es igual o mayor a 5 caracteres
+        if(`${password}`.length >= 5) {
+          // Esta condicion es para saber si la contraceña es menor o igual a 24 caracteres.
+          if(`${password}`.length <= 24) {
+            // Esta peticion es para actualizar el password en la base de datos.
+            await pool.query(
+              "UPDATE auth SET password = IFNULL(?, password) WHERE username = ?",
+              [password, username]
+            );
+    
+            res.status(201).json({
+              message: "success",
+            });
+
+          } else {
+            res.status(201).json({
+              message: "The password we recommend is 24 characters or less",
+            });
+          }
+
+        } else {
+          res.status(201).json({
+            message: "The password we recommend that it have 5 characters",
+          });
+        }
+
+      } else {
+        res.status(200).json({
+          message: "You forgot to put the password",
+        });
+      }
+
+    } else {
+      res.status(404).json({
+        message: "User Not Found",
+      });
+    }
+  } catch (error) {
+    res.status(404).json({
+      message: "Your username is already taken",
+      error: error,
+    });
+  }
+});
+
 // Login
 router.get("/api/login/:username/:password", async (req, res) => {
   // Recuperando la data que el usuario me esta pasando para registrarse.
