@@ -17,7 +17,7 @@ CREATE TABLE users (
     bio VARCHAR(255) DEFAULT NULL,
     fechaNacimiento VARCHAR(255) DEFAULT NULL,
     user_id VARCHAR(255) DEFAULT NULL,
-
+    front_page VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (id)
 )
 

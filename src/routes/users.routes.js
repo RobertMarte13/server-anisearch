@@ -1,34 +1,15 @@
 import { Router } from "express";
 import pool from "../db.js";
-// import multer from "multer";
-// import sharp from "sharp";
 
 const router = Router();
 
-// const storage = multer.diskStorage({
-//   // el cb es por si retornare un error.
-//   destination: (req, file, cb) => {
-//     cb(null, '../../uploads') //TODO: img con todas sus dimensiones.
-//   },
-//   filename: (req, file, cb) => {
-//     const ext = file.originalname.split('.').pop(); // Este me da el ultimo valor del arreglo. osea que si es img.png me dara png.
-
-//     cb(null, `${Date.now()}.${ext}`) // Este es el nombre con el que se guardara.
-//   }
-// })
-
-// const upload = multer({ storage })
-
-// upload.single('avatar')
-
-// Este sirve para crear informacion de los usuarios para su perfil si son nuevos.
 router.post("/api/users", async (req, res) => {
-  const { username, img, bio, fechaNacimiento, user_id } = req.body;
+  const { username, img, bio, fechaNacimiento, user_id, front_page } = req.body;
 
   // Este codigo crea los primeros registros de informacion para cada perfil de cada usuario.
   await pool.query(
-    "INSERT INTO users(username, img, bio, fechaNacimiento, user_id) VALUES (?, ?, ?, ?, ?)",
-    [username, img, bio, fechaNacimiento, user_id]
+    "INSERT INTO users(username, img, bio, fechaNacimiento, user_id, front_page) VALUES (?, ?, ?, ?, ?, ?)",
+    [username, img, bio, fechaNacimiento, user_id, front_page]
   );
 });
 
@@ -47,10 +28,11 @@ router.get("/api/users/:userId", async (req, res) => {
       res.json({
         user: validationUser.username,
         img: validationUser.img,
+        front_page: validationUser.front_page,
         bio: validationUser.bio,
         fechaNacimiento: validationUser.fechaNacimiento,
         user_id: validationUser.user_id,
-        users_id: validationUser.users_id
+        users_id: validationUser.users_id,
       });
     } 
   } catch (error) {
@@ -62,13 +44,13 @@ router.get("/api/users/:userId", async (req, res) => {
 
 router.patch("/api/users/:userId", async (req, res) => {
   const { userId } = req.params;
-  const { username, img, bio, fechaNacimiento } = req.body;
+  const { username, img, bio, fechaNacimiento, front_page } = req.body;
 
   try {
     // Este codigo lo que hace es actualizar o modificar las diferentes informaciones del perfil del usuario.
     const [rows] = await pool.query(
-      "UPDATE users SET username = IFNULL(?, username), img = IFNULL(?, img), bio = IFNULL(?, bio), fechaNacimiento = IFNULL(?, fechaNacimiento) WHERE user_id = ?",
-      [username, img, bio, fechaNacimiento, userId]
+      "UPDATE users SET username = IFNULL(?, username), img = IFNULL(?, img), bio = IFNULL(?, bio), fechaNacimiento = IFNULL(?, fechaNacimiento), front_page = IFNULL(?, front_page) WHERE user_id = ?",
+      [username, img, bio, fechaNacimiento, front_page, userId]
     );
 
     // Esta informacion sirve para cuando hay un error todo va bien mostrarlo al usuario.
