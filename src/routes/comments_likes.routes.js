@@ -40,11 +40,11 @@ routes.get('/api/comments_likes', async (req, res) => {
 })
 
 // Eliminar likes
-routes.delete('/api/comments_likes/:users_id', async (req, res) => {
+routes.delete('/api/comments_likes/:id_delete', async (req, res) => {
     try {
 
         // Aqui usamos con una query params un id que solo tendra el usuario que iso el like para poder remover el like.
-        await pool.query("DELETE FROM comment_likes WHERE users_id = ?", [req.params.users_id]);
+        await pool.query("DELETE FROM comment_likes WHERE id_delete = ?", [req.params.id_delete]);
 
         res.status(200).json({message: "Success"})
     } catch (error) {
