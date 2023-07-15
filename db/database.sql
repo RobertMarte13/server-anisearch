@@ -77,6 +77,14 @@ CREATE TABLE comment_likes (
     PRIMARY KEY (users_id, comments_id)
 )
 
+CREATE TABLE follow (
+    id_follow INT NOT NULL AUTO_INCREMENT,
+    users_id VARCHAR(255) DEFAULT NULL,
+    user_id VARCHAR(255) DEFAULT NULL,
+    delete_id VARCHAR(255) DEFAULT NULL,
+    PRIMARY KEY (id_follow)
+)
+
 INSERT INTO auth (username, password) VALUES ('Robertson', 'robertmarte123')
 
 /*

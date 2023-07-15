@@ -10,6 +10,7 @@ import creatercardsindex from "./routes/createcards.routes.js"
 import commentindex from "./routes/comments.routes.js"
 import subcommentindex from "./routes/sub_comment.routes.js"
 import commentsLikes from "./routes/comments_likes.routes.js"
+import followers from "./routes/follow.routes.js"
 
 import { PORT } from "./config.js"
 
@@ -32,6 +33,7 @@ app.use(creatercardsindex)
 app.use(commentindex)
 app.use(subcommentindex)
 app.use(commentsLikes)
+app.use(followers)
 
 app.listen(PORT)
 console.log(`Server listening on port ${PORT}`)
