@@ -17,6 +17,10 @@ router.post("/api/follower", async (req, res) => {
 
     if (users_id !== user_id) {
       if (validation) {
+        res.status(404).json({
+          message: 'no se puede dar más de un follow'
+        })
+      } else{
         // Creamos la peticion a la base de datos.
         await pool.query(
           "INSERT INTO follow(users_id, user_id, delete_id) VALUE (?, ?, ?)",
@@ -26,10 +30,6 @@ router.post("/api/follower", async (req, res) => {
         res.status(201).json({
           message: "sucess!",
         });
-      } else{
-        res.status(404).json({
-          message: 'no se puede dar más de un follow'
-        })
       }
     } else {
       res.status(404).json({
