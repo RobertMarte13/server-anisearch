@@ -9,11 +9,12 @@ router.post("/api/follower", async (req, res) => {
   const { users_id, user_id, delete_id } = req.body;
 
   try {
-    const [rows] = await pool.query("SELECT users_id, user_id FROM follow");
+    const [rows] = await pool.query("SELECT * FROM follow");
     const validation = rows.find(
       (followers) =>
         followers.users_id === users_id && followers.user_id === user_id
     );
+
     if (users_id !== user_id) {
       if (validation) {
         // Creamos la peticion a la base de datos.
