@@ -9,16 +9,27 @@ router.post("/api/follower", async (req, res) => {
   const { users_id, user_id, delete_id } = req.body;
 
   try {
+    const [rows] = await pool.query("SELECT users_id, user_id FROM follow");
+    const validation = rows.find(
+      (followers) =>
+        followers.users_id === users_id && followers.user_id === user_id
+    );
     if (users_id !== user_id) {
-      // Creamos la peticion a la base de datos.
-      await pool.query(
-        "INSERT INTO follow(users_id, user_id, delete_id) VALUE (?, ?, ?)",
-        [users_id, user_id, delete_id]
-      );
+      if (validation) {
+        // Creamos la peticion a la base de datos.
+        await pool.query(
+          "INSERT INTO follow(users_id, user_id, delete_id) VALUE (?, ?, ?)",
+          [users_id, user_id, delete_id]
+        );
 
-      res.status(201).json({
-        message: "sucess!",
-      });
+        res.status(201).json({
+          message: "sucess!",
+        });
+      } else{
+        res.status(404).json({
+          message: 'no se puede dar más de un follow'
+        })
+      }
     } else {
       res.status(404).json({
         message: "Error al dar un follow!",
